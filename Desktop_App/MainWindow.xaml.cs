@@ -77,17 +77,17 @@ namespace Desktop_App
 
         private void cal_DisplayDateChanged(object sender, CalendarDateChangedEventArgs e)
         {
-
+            m_viewModel.LoadEntries();
         }
 
         private void btn_SaveTime_Click(object sender, RoutedEventArgs e)
         {
-
+            m_viewModel.SaveEntries();
         }
 
         private void MenuItem_OpenDB_Click(object sender, RoutedEventArgs e)
         {
-            // Change DB
+            m_viewModel.GetConnection();
         }
     }
 }
