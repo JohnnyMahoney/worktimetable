@@ -33,8 +33,7 @@
                 <StackPanel DockPanel.Dock="Top">
                     <Calendar x:Name="cal"
                           Margin="5"
-                              SelectedDate="{Binding SelectedDate}"
-                          DisplayDateChanged="cal_DisplayDateChanged"/>
+                              SelectedDate="{Binding SelectedDate}"/>
 
                     <Grid Margin="5">
                         <Grid.ColumnDefinitions>
@@ -58,7 +57,7 @@
                                      Height="20"
                                      Width="40"
                                      FontSize="15"
-                                     PreviewTextInput="txtBox_Stunde_PreviewTextInput"/>
+                                     PreviewTextInput="txtBox_Stunde_PreviewTextInput" TabIndex="1"/>
                             <TextBlock Text=" : "
                                        Height="20"
                                        FontSize="15"/>
@@ -66,7 +65,7 @@
                                      Height="20"
                                      Width="40"
                                      FontSize="15"
-                                     PreviewTextInput="txtBox_Minute_PreviewTextInput"/>
+                                     PreviewTextInput="txtBox_Minute_PreviewTextInput" TabIndex="2"/>
                         </StackPanel>
 
                         <TextBlock Text="Feierabend:"
@@ -82,7 +81,7 @@
                                      Width="40"
                                      Height="20"
                                      FontSize="15"
-                                     PreviewTextInput="txtBox_Stunde_PreviewTextInput"/>
+                                     PreviewTextInput="txtBox_Stunde_PreviewTextInput" TabIndex="3"/>
                             <TextBlock Text=" : "
                                        Height="20"
                                        FontSize="15"/>
@@ -90,7 +89,7 @@
                                      Width="40"
                                      Height="20"
                                      FontSize="15"
-                                     PreviewTextInput="txtBox_Minute_PreviewTextInput"/>
+                                     PreviewTextInput="txtBox_Minute_PreviewTextInput" TabIndex="4"/>
                         </StackPanel>
 
                         <TextBlock Text="Pause:"
@@ -107,7 +106,7 @@
                                      Width="40"
                                      Height="20"
                                      FontSize="15"
-                                     PreviewTextInput="txtBox_Stunde_PreviewTextInput"/>
+                                     PreviewTextInput="txtBox_Stunde_PreviewTextInput" TabIndex="5"/>
                             <TextBlock Text=" : "
                                        Height="20"
                                        FontSize="15"/>
@@ -115,7 +114,7 @@
                                      Width="40"
                                      Height="20"
                                      FontSize="15"
-                                     PreviewTextInput="txtBox_Minute_PreviewTextInput"/>
+                                     PreviewTextInput="txtBox_Minute_PreviewTextInput" TabIndex="6"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -126,12 +125,12 @@
                         Height="20"
                         Margin="10,0,10,10"
                         DockPanel.Dock="Bottom"
-                        Click="btn_SaveTime_Click"/>
+                        Click="btn_SaveTime_Click" TabIndex="8"/>
 
                 <TextBox x:Name="txtBoxDescription"
                          Margin="10"
                          DockPanel.Dock="Bottom"
-                         Text="{Binding Comment}"/>
+                         Text="{Binding Comment}" TabIndex="7"/>
             </DockPanel>
 
             <DockPanel Grid.Column="1">

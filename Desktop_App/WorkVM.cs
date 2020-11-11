@@ -55,6 +55,7 @@ namespace Desktop_App
                 if (selectedDate == value) return;
                 selectedDate = value;
                 Raise("SelectedDate");
+                LoadEntries();
             }
         }
         public DateTime WorkStart
