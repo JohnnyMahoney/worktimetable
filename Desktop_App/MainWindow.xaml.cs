@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,24 +22,15 @@ namespace Desktop_App
     /// </summary>
     public partial class MainWindow : Window
     {
-        WorkVM m_viewModel = new WorkVM();
+        private WorkVM _viewModel = new WorkVM();
         public MainWindow()
         {
             InitializeComponent();
-
-            m_viewModel.GetConnection();
-            m_viewModel.LoadEntries();
-
-
-        }
-
-        public void WireUp()
-        {
-            cal.SelectedDate = m_viewModel.SelectedDate;
+            DataContext = _viewModel;
         }
 
         private void txtBox_Stunde_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
+            {
             Regex regex = new Regex("[^0-9]+");
             TextBox t1 = (TextBox)sender;
             Regex regex2 = new Regex("^([0-2]?[0-9])$");
@@ -77,17 +69,43 @@ namespace Desktop_App
 
         private void cal_DisplayDateChanged(object sender, CalendarDateChangedEventArgs e)
         {
-            m_viewModel.LoadEntries();
+            _viewModel.LoadEntries();
         }
 
         private void btn_SaveTime_Click(object sender, RoutedEventArgs e)
         {
-            m_viewModel.SaveEntries();
+            var start = new DateTime(
+                _viewModel.SelectedDate.Year,
+                _viewModel.SelectedDate.Month,
+                _viewModel.SelectedDate.Day,
+                int.Parse(txtBox_Stunde.Text),
+                int.Parse(txtBox_Minute.Text),
+                0);
+
+            var end = new DateTime(
+                _viewModel.SelectedDate.Year,
+                _viewModel.SelectedDate.Month,
+                _viewModel.SelectedDate.Day,
+                int.Parse(txtBox_StundeEnd.Text),
+                int.Parse(txtBox_MinuteEnd.Text),
+                0);
+
+            var breakTime = new TimeSpan(
+                int.Parse(txtBox_StundeBreak.Text),
+                int.Parse(txtBox_MinuteBreak.Text),
+                0);
+
+            _viewModel.SaveEntries(start, end, breakTime);
         }
 
         private void MenuItem_OpenDB_Click(object sender, RoutedEventArgs e)
         {
-            m_viewModel.GetConnection();
+            _viewModel.GetConnection();
+        }
+
+        private void MenuItem_Close_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

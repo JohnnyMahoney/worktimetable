@@ -12,7 +12,8 @@
                 <MenuItem Header="Öffnen"
                           Click="MenuItem_OpenDB_Click"/>
                 <Separator/>
-                <MenuItem Header="Schließen"/>
+                <MenuItem Header="Schließen" 
+                          Click="MenuItem_Close_Click"/>
             </MenuItem>
         </Menu>
         <Rectangle DockPanel.Dock="Top"
@@ -32,6 +33,7 @@
                 <StackPanel DockPanel.Dock="Top">
                     <Calendar x:Name="cal"
                           Margin="5"
+                              SelectedDate="{Binding SelectedDate}"
                           DisplayDateChanged="cal_DisplayDateChanged"/>
 
                     <Grid Margin="5">
@@ -128,7 +130,8 @@
 
                 <TextBox x:Name="txtBoxDescription"
                          Margin="10"
-                         DockPanel.Dock="Bottom"/>
+                         DockPanel.Dock="Bottom"
+                         Text="{Binding Comment}"/>
             </DockPanel>
 
             <DockPanel Grid.Column="1">
@@ -143,15 +146,16 @@
 
                     <DataGrid x:Name="dataGrid_ViewEntries"
                               ColumnWidth="AUTO"
-                              IsReadOnly="True">
-                        <DataGrid.Columns>
+                              IsReadOnly="True"
+                              ItemsSource="{Binding DisplayEntries}">
+                        <!--<DataGrid.Columns>
                             <DataGridTextColumn Header="Datum"/>
                             <DataGridTextColumn Header="Arbeitsbeginn"/>
                             <DataGridTextColumn Header="Feierabend"/>
                             <DataGridTextColumn Header="Pause"/>
                             <DataGridTextColumn Header="Stunden"/>
 
-                        </DataGrid.Columns>
+                        </DataGrid.Columns>-->
                     </DataGrid>
 
                     <TextBlock x:Name="txtBlock_CurrentInfos"
