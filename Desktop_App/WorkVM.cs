@@ -15,7 +15,7 @@ namespace Desktop_App
 {
     public class WorkVM : INotifyPropertyChanged
     {
-        private IDbConnection dbConnection;
+        private SQLiteConnection dbConnection;
         private DateTime selectedDate = DateTime.Now;
         private DateTime workStart;
         private DateTime workEnd;
@@ -121,8 +121,29 @@ namespace Desktop_App
 
         public void LoadEntries()
         {
-            string queryString = $"SELECT * FROM history WHERE begin BETWEEN date('{SelectedDate:s}','start of month') AND date('{SelectedDate:s}','start of month','+1 month','-1 day')";
-            (dbConnection?.Query<WorkEntry>(queryString) ?? new List<WorkEntry>()).ToList().ForEach(x=> DisplayEntries.Add(x));
+            DisplayEntries.Clear();
+            string queryString = $"SELECT * FROM history WHERE begin BETWEEN datetime('{SelectedDate:s}','start of month') AND datetime('{SelectedDate:s}','start of month','+1 month','-1 day')";
+            dbConnection.Open();
+            using (var comm = new SQLiteCommand(queryString, dbConnection))
+            {
+                using (var read = comm.ExecuteReader())
+                {
+                    while (read.Read())
+                    {
+                        WorkEntry _ = new WorkEntry();
+                        _.Begin = read.GetDateTime(0);
+                        _.End = read.GetDateTime(1);
+                        string breakTime = read.GetString(2);
+                        _.Break = new TimeSpan(int.Parse(breakTime.Split(":")[0]), int.Parse(breakTime.Split(":")[1]), int.Parse(breakTime.Split(":")[2]));
+                        _.Comment = read.GetString(3);
+                        DisplayEntries.Add(_);
+                    }
+                }
+            }
+            dbConnection.Close();
+
+
+            //(dbConnection?.Query<WorkEntry>(queryString) ?? new List<WorkEntry>()).ToList().ForEach(x => DisplayEntries.Add(x));
         }
         public void ChangeEntries()
         {
