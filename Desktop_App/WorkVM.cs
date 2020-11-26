@@ -90,7 +90,6 @@ namespace Desktop_App
                 Raise();
             }
         }
-
         public string Comment
         {
             get { return comment; }
@@ -101,6 +100,7 @@ namespace Desktop_App
                 Raise();
             }
         }
+        public WorkEntry SelectedEntry { get; set; }
 
 
 
@@ -137,7 +137,8 @@ namespace Desktop_App
                     WorkEntry _ = new WorkEntry
                     {
                         Begin = read.GetDateTime(0),
-                        End = read.GetDateTime(1)
+                        End = read.GetDateTime(1),
+                        ID = read.GetInt32(4)
                     };
 
                     string breakTime = read.GetString(2);
@@ -152,12 +153,13 @@ namespace Desktop_App
 
         public void ChangeEntries()
         {
-
         }   
         
         public void DeleteEntries()
         {
-
+            string insertString = $"DELETE FROM history WHERE id = {SelectedEntry?.ID}";
+            dbConnection?.Execute(insertString);
+            LoadEntries();
         }
 
         public void SaveEntries(DateTime start, DateTime end, TimeSpan breakTime)

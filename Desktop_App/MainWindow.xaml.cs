@@ -74,6 +74,13 @@ namespace Desktop_App
 
         private void btn_SaveEntry_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txtBox_Minute.Text) ||
+                string.IsNullOrWhiteSpace(txtBox_MinuteEnd.Text) ||
+                string.IsNullOrWhiteSpace(txtBox_MinuteBreak.Text) ||
+                string.IsNullOrWhiteSpace(txtBox_Stunde.Text) ||
+                string.IsNullOrWhiteSpace(txtBox_StundeEnd.Text) ||
+                string.IsNullOrWhiteSpace(txtBox_StundeBreak.Text)) return;
+
             var start = new DateTime(
                 _viewModel.SelectedDate.Year,
                 _viewModel.SelectedDate.Month,
@@ -96,11 +103,13 @@ namespace Desktop_App
                 0);
 
             _viewModel.SaveEntries(start, end, breakTime);
+
+            txtBoxDescription.Text = txtBox_Minute.Text = txtBox_MinuteBreak.Text = txtBox_MinuteEnd.Text = txtBox_Stunde.Text = txtBox_StundeBreak.Text = txtBox_StundeEnd.Text = string.Empty;
         }
 
         private void btn_DeleteEntry_Click(object sender, RoutedEventArgs e)
         {
-
+            _viewModel.DeleteEntries();
         }
 
         private void MenuItem_OpenDB_Click(object sender, RoutedEventArgs e)
@@ -115,9 +124,9 @@ namespace Desktop_App
 
         private void dataGrid_ViewEntries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            WorkEntry selectedEntry = ((DataGrid)sender).SelectedItem as WorkEntry;
-            txtBlock_CurrentInfos.Text = selectedEntry.Comment;
-            btn_DeleteEntry.IsEnabled = !(selectedEntry == null);
+            _viewModel.SelectedEntry = ((DataGrid)sender).SelectedItem as WorkEntry;
+            txtBlock_CurrentInfos.Text = _viewModel.SelectedEntry?.Comment;
+            btn_DeleteEntry.IsEnabled = !(_viewModel.SelectedEntry == null);
         }
     }
 

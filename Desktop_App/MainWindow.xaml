@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Desktop_App"
+        xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="800">
     <DockPanel>
@@ -160,11 +161,11 @@
                               SelectionChanged="dataGrid_ViewEntries_SelectionChanged">
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Datum" Binding="{Binding Begin.Date}"/>
+                            <DataGridTextColumn Header="Datum" Binding="{Binding Begin.Date, StringFormat='ddd, dd.MM.yyyy', ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}"/>
                             <DataGridTextColumn Header="Arbeitsbeginn" Binding="{Binding Begin.TimeOfDay}"/>
                             <DataGridTextColumn Header="Feierabend" Binding="{Binding End.TimeOfDay}"/>
                             <DataGridTextColumn Header="Pause" Binding="{Binding Break}"/>
-                            <DataGridTextColumn Header="Stunden" Binding="{Binding Worked}"/>
+                            <DataGridTextColumn Header="Arbeitsstunden" Binding="{Binding Worked}"/>
                         </DataGrid.Columns>
                     </DataGrid>
 

@@ -65,6 +65,8 @@ namespace Desktop_App
             }
         }
 
+        public int ID { get; set; }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void Raise([CallerMemberName] string propName = null)
