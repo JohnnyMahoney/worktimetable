@@ -5,10 +5,12 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace Desktop_App
@@ -21,10 +23,10 @@ namespace Desktop_App
         private DateTime workEnd;
         private TimeSpan breakTime;
         private string comment;
-        private ObservableCollection<WorkEntry> displayEntries = new ObservableCollection<WorkEntry>();
+        private ObservableCollection<WorkEntry> displayEntries = new();
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void Raise(string propName)
+        protected void Raise([CallerMemberName] string propName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
@@ -44,7 +46,7 @@ namespace Desktop_App
             {
                 if (displayEntries == value) return;
                 displayEntries = value;
-                Raise("DisplayEntries");
+                Raise();
             }
         }
         public DateTime SelectedDate
@@ -54,7 +56,7 @@ namespace Desktop_App
             {
                 if (selectedDate == value) return;
                 selectedDate = value;
-                Raise("SelectedDate");
+                Raise();
                 LoadEntries();
             }
         }
@@ -65,7 +67,7 @@ namespace Desktop_App
             {
                 if (workStart == value) return;
                 workStart = value;
-                Raise("WorkStart");
+                Raise();
             }
         }
         public DateTime WorkEnd
@@ -75,7 +77,7 @@ namespace Desktop_App
             {
                 if (workEnd == value) return;
                 workEnd = value;
-                Raise("WorkEnd");
+                Raise();
             }
         }
         public TimeSpan BreakTime
@@ -85,7 +87,7 @@ namespace Desktop_App
             {
                 if (breakTime == value) return;
                 breakTime = value;
-                Raise("BreakTime");
+                Raise();
             }
         }
 
@@ -96,7 +98,7 @@ namespace Desktop_App
             {
                 if (comment == value) return;
                 comment = value;
-                Raise("Comment");
+                Raise();
             }
         }
 
@@ -104,9 +106,12 @@ namespace Desktop_App
 
         public void GetConnection()
         {
-            var opf = new OpenFileDialog();
-            opf.InitialDirectory = Environment.CurrentDirectory;
-            opf.Filter = "Database Files (*.db)|*.db";
+            var opf = new OpenFileDialog
+            {
+                InitialDirectory = Environment.CurrentDirectory,
+                Filter = "Database Files (*.db)|*.db"
+            };
+
             if (opf.ShowDialog() == true)
             {
                 string connectionString = $"Data Source={opf.FileName};Version=3;";
@@ -119,37 +124,37 @@ namespace Desktop_App
             }
         }
 
-
         public void LoadEntries()
         {
             DisplayEntries.Clear();
             string queryString = $"SELECT * FROM history WHERE begin BETWEEN datetime('{SelectedDate:s}','start of month') AND datetime('{SelectedDate:s}','start of month','+1 month','-1 day')";
-            dbConnection.Open();
+            dbConnection?.Open();
             using (var comm = new SQLiteCommand(queryString, dbConnection))
             {
-                using (var read = comm.ExecuteReader())
+                using var read = comm.ExecuteReader();
+                while (read.Read())
                 {
-                    while (read.Read())
+                    WorkEntry _ = new WorkEntry
                     {
-                        WorkEntry _ = new WorkEntry();
-                        _.Begin = read.GetDateTime(0);
-                        _.End = read.GetDateTime(1);
-                        string breakTime = read.GetString(2);
-                        _.Break = new TimeSpan(int.Parse(breakTime.Split(":")[0]), int.Parse(breakTime.Split(":")[1]), int.Parse(breakTime.Split(":")[2]));
-                        _.Comment = read.GetString(3);
-                        DisplayEntries.Add(_);
-                    }
+                        Begin = read.GetDateTime(0),
+                        End = read.GetDateTime(1)
+                    };
+
+                    string breakTime = read.GetString(2);
+                    _.Break = new TimeSpan(int.Parse(breakTime.Split(":")[0]), int.Parse(breakTime.Split(":")[1]), int.Parse(breakTime.Split(":")[2]));
+                    _.Worked = _.End - _.Begin - _.Break;
+                    _.Comment = read.GetString(3);
+                    DisplayEntries.Add(_);
                 }
             }
             dbConnection.Close();
-
-
-            //(dbConnection?.Query<WorkEntry>(queryString) ?? new List<WorkEntry>()).ToList().ForEach(x => DisplayEntries.Add(x));
         }
+
         public void ChangeEntries()
         {
 
         }
+
         public void SaveEntries(DateTime start, DateTime end, TimeSpan breakTime)
         {
             WorkStart = start;
@@ -161,7 +166,5 @@ namespace Desktop_App
             LoadEntries();
 
         }
-
-
     }
 }

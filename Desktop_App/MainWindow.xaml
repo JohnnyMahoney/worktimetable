@@ -146,15 +146,17 @@
                     <DataGrid x:Name="dataGrid_ViewEntries"
                               ColumnWidth="AUTO"
                               IsReadOnly="True"
-                              ItemsSource="{Binding DisplayEntries}">
-                        <!--<DataGrid.Columns>
-                            <DataGridTextColumn Header="Datum"/>
-                            <DataGridTextColumn Header="Arbeitsbeginn"/>
-                            <DataGridTextColumn Header="Feierabend"/>
-                            <DataGridTextColumn Header="Pause"/>
-                            <DataGridTextColumn Header="Stunden"/>
-
-                        </DataGrid.Columns>-->
+                              ItemsSource="{Binding DisplayEntries}"
+                              AutoGenerateColumns="False"
+                              SelectionChanged="dataGrid_ViewEntries_SelectionChanged">
+                        
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Datum" Binding="{Binding Begin.Date}"/>
+                            <DataGridTextColumn Header="Arbeitsbeginn" Binding="{Binding Begin.TimeOfDay}"/>
+                            <DataGridTextColumn Header="Feierabend" Binding="{Binding End.TimeOfDay}"/>
+                            <DataGridTextColumn Header="Pause" Binding="{Binding Break}"/>
+                            <DataGridTextColumn Header="Stunden" Binding="{Binding Worked}"/>
+                        </DataGrid.Columns>
                     </DataGrid>
 
                     <TextBlock x:Name="txtBlock_CurrentInfos"

@@ -30,7 +30,7 @@ namespace Desktop_App
         }
 
         private void txtBox_Stunde_PreviewTextInput(object sender, TextCompositionEventArgs e)
-            {
+        {
             Regex regex = new Regex("[^0-9]+");
             TextBox t1 = (TextBox)sender;
             Regex regex2 = new Regex("^([0-2]?[0-9])$");
@@ -107,5 +107,11 @@ namespace Desktop_App
         {
             Close();
         }
+
+        private void dataGrid_ViewEntries_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            txtBlock_CurrentInfos.Text = ((WorkEntry)((DataGrid)sender).SelectedItem).Comment;
+        }
     }
+
 }

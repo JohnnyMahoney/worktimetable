@@ -1,5 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using System.Windows.Data;
 
 namespace Desktop_App
 {
@@ -9,6 +12,7 @@ namespace Desktop_App
         private DateTime end;
         private TimeSpan @break;
         private string comment;
+        private TimeSpan worked;
 
         public DateTime Begin
         {
@@ -17,7 +21,7 @@ namespace Desktop_App
             {
                 if (begin == value) return;
                 begin = value;
-                Raise("Begin");
+                Raise();
             }
         }
         public DateTime End
@@ -27,7 +31,7 @@ namespace Desktop_App
             {
                 if (end == value) return;
                 end = value;
-                Raise("End");
+                Raise();
             }
         }
         public TimeSpan Break
@@ -37,7 +41,7 @@ namespace Desktop_App
             {
                 if (@break == value) return;
                 @break = value;
-                Raise("Break");
+                Raise();
             }
         }
         public string Comment
@@ -47,17 +51,25 @@ namespace Desktop_App
             {
                 if (comment == value) return;
                 comment = value;
-                Raise("Comment");
+                Raise();
+            }
+        }
+        public TimeSpan Worked
+        {
+            get { return worked; }
+            set
+            {
+                if (worked == value) return;
+                worked = value;
+                Raise();
             }
         }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void Raise(string propName)
+        protected void Raise([CallerMemberName] string propName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
-
-
     }
 }
