@@ -72,7 +72,7 @@ namespace Desktop_App
             _viewModel.LoadEntries();
         }
 
-        private void btn_SaveTime_Click(object sender, RoutedEventArgs e)
+        private void btn_SaveEntry_Click(object sender, RoutedEventArgs e)
         {
             var start = new DateTime(
                 _viewModel.SelectedDate.Year,
@@ -98,6 +98,11 @@ namespace Desktop_App
             _viewModel.SaveEntries(start, end, breakTime);
         }
 
+        private void btn_DeleteEntry_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void MenuItem_OpenDB_Click(object sender, RoutedEventArgs e)
         {
             _viewModel.GetConnection();
@@ -110,7 +115,9 @@ namespace Desktop_App
 
         private void dataGrid_ViewEntries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            txtBlock_CurrentInfos.Text = ((WorkEntry)((DataGrid)sender).SelectedItem).Comment;
+            WorkEntry selectedEntry = ((DataGrid)sender).SelectedItem as WorkEntry;
+            txtBlock_CurrentInfos.Text = selectedEntry.Comment;
+            btn_DeleteEntry.IsEnabled = !(selectedEntry == null);
         }
     }
 

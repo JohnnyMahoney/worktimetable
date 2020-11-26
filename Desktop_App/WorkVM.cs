@@ -153,6 +153,11 @@ namespace Desktop_App
         public void ChangeEntries()
         {
 
+        }   
+        
+        public void DeleteEntries()
+        {
+
         }
 
         public void SaveEntries(DateTime start, DateTime end, TimeSpan breakTime)

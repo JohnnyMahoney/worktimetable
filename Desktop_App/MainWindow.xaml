@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Desktop_App"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="550" Width="800">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Datei">
@@ -119,13 +119,22 @@
                     </Grid>
                 </StackPanel>
 
-                <Button x:Name="btn_SaveTime"
+                <Button x:Name="btn_DeleteEntry"
+                        Content="Löschen"
+                        FontSize="12"
+                        Height="20"
+                        IsEnabled="False"
+                        Margin="10,0,10,10"
+                        DockPanel.Dock="Bottom"
+                        Click="btn_DeleteEntry_Click" TabIndex="8"/>
+
+                <Button x:Name="btn_SaveEntry"
                         Content="Speichern"
                         FontSize="12"
                         Height="20"
                         Margin="10,0,10,10"
                         DockPanel.Dock="Bottom"
-                        Click="btn_SaveTime_Click" TabIndex="8"/>
+                        Click="btn_SaveEntry_Click" TabIndex="9"/>
 
                 <TextBox x:Name="txtBoxDescription"
                          Margin="10"
@@ -149,7 +158,7 @@
                               ItemsSource="{Binding DisplayEntries}"
                               AutoGenerateColumns="False"
                               SelectionChanged="dataGrid_ViewEntries_SelectionChanged">
-                        
+
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Datum" Binding="{Binding Begin.Date}"/>
                             <DataGridTextColumn Header="Arbeitsbeginn" Binding="{Binding Begin.TimeOfDay}"/>
