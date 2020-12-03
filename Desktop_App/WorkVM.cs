@@ -102,6 +102,21 @@ namespace Desktop_App
         }
         public WorkEntry SelectedEntry { get; set; }
 
+        public string HoursThisMonth
+        {
+            get
+            {
+                TimeSpan sum = new TimeSpan();
+                foreach (var entry in DisplayEntries)
+                {
+                    sum += entry.Worked;
+                }
+
+                return sum.ToString();
+            }
+        }
+
+
 
 
         public void GetConnection()
@@ -149,12 +164,13 @@ namespace Desktop_App
                 }
             }
             dbConnection.Close();
+            Raise(nameof(HoursThisMonth));
         }
 
         public void ChangeEntries()
         {
-        }   
-        
+        }
+
         public void DeleteEntries()
         {
             string insertString = $"DELETE FROM history WHERE id = {SelectedEntry?.ID}";

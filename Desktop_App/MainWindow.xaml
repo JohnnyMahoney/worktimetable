@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="800">
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top"
+              Background="White">
             <MenuItem Header="Datei">
                 <MenuItem Header="Öffnen"
                           Click="MenuItem_OpenDB_Click"/>
@@ -125,7 +126,7 @@
                         FontSize="12"
                         Height="20"
                         IsEnabled="False"
-                        Margin="10,0,10,10"
+                        Margin="10,0,10,5"
                         DockPanel.Dock="Bottom"
                         Click="btn_DeleteEntry_Click" TabIndex="8"/>
 
@@ -133,21 +134,26 @@
                         Content="Speichern"
                         FontSize="12"
                         Height="20"
-                        Margin="10,0,10,10"
+                        Margin="10,0,10,5"
                         DockPanel.Dock="Bottom"
                         Click="btn_SaveEntry_Click" TabIndex="9"/>
 
                 <TextBox x:Name="txtBoxDescription"
                          Margin="10"
+                         TextWrapping="Wrap"
                          DockPanel.Dock="Bottom"
                          Text="{Binding Comment}" TabIndex="7"/>
             </DockPanel>
-
-            <DockPanel Grid.Column="1">
-                <Rectangle Fill="Black"
-                    Width="1"/>
-
-                <Grid>
+            
+            <DockPanel Grid.Column="1"
+                       Margin="10,0">
+                <StackPanel DockPanel.Dock="Bottom"
+                            Orientation="Horizontal"
+                            Height="20">
+                    <TextBlock Text="Monatsstunden: "/>
+                    <TextBlock Text="{Binding HoursThisMonth}"/>
+                </StackPanel>
+                <Grid DockPanel.Dock="Bottom">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="*"/>
@@ -172,7 +178,9 @@
                     <TextBlock x:Name="txtBlock_CurrentInfos"
                                Grid.Row="1"
                                Padding="5"
-                               IsHitTestVisible="False"/>
+                               IsHitTestVisible="False"
+                               TextWrapping="Wrap"
+                               d:Text="Dummy Text loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong"/>
                 </Grid>
             </DockPanel>
         </Grid>
