@@ -167,10 +167,6 @@ namespace Desktop_App
             Raise(nameof(HoursThisMonth));
         }
 
-        public void ChangeEntries()
-        {
-        }
-
         public void DeleteEntries()
         {
             string insertString = $"DELETE FROM history WHERE id = {SelectedEntry?.ID}";

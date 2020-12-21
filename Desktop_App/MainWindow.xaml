@@ -35,7 +35,8 @@
                 <StackPanel DockPanel.Dock="Top">
                     <Calendar x:Name="cal"
                           Margin="5"
-                              SelectedDate="{Binding SelectedDate}"/>
+                              SelectedDate="{Binding SelectedDate}"
+                        SelectedDatesChanged="cal_SelectedDatesChanged"/>
 
                     <Grid Margin="5">
                         <Grid.ColumnDefinitions>
@@ -144,12 +145,13 @@
                          DockPanel.Dock="Bottom"
                          Text="{Binding Comment}" TabIndex="7"/>
             </DockPanel>
-            
+
             <DockPanel Grid.Column="1"
                        Margin="10,0">
                 <StackPanel DockPanel.Dock="Bottom"
                             Orientation="Horizontal"
-                            Height="20">
+                            Height="20"
+                            >
                     <TextBlock Text="Monatsstunden: "/>
                     <TextBlock Text="{Binding HoursThisMonth}"/>
                 </StackPanel>
@@ -164,7 +166,9 @@
                               IsReadOnly="True"
                               ItemsSource="{Binding DisplayEntries}"
                               AutoGenerateColumns="False"
-                              SelectionChanged="dataGrid_ViewEntries_SelectionChanged">
+                              SelectionChanged="dataGrid_ViewEntries_SelectionChanged" 
+                              SelectionMode="Single"
+                              >
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Datum" Binding="{Binding Begin.Date, StringFormat='ddd, dd.MM.yyyy', ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}"/>

@@ -69,7 +69,7 @@ namespace Desktop_App
 
         private void cal_DisplayDateChanged(object sender, CalendarDateChangedEventArgs e)
         {
-            _viewModel.LoadEntries();
+            //dataGrid_ViewEntries.SelectedIndex = _viewModel.DisplayEntries.IndexOf(_viewModel.DisplayEntries.Where(x => x.Begin.Date == ((Calendar)sender).SelectedDate).FirstOrDefault());
         }
 
         private void btn_SaveEntry_Click(object sender, RoutedEventArgs e)
@@ -127,6 +127,11 @@ namespace Desktop_App
             _viewModel.SelectedEntry = ((DataGrid)sender).SelectedItem as WorkEntry;
             txtBlock_CurrentInfos.Text = _viewModel.SelectedEntry?.Comment;
             btn_DeleteEntry.IsEnabled = !(_viewModel.SelectedEntry == null);
+        }
+
+        private void cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Mouse.Capture(null);
         }
     }
 
